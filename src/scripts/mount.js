@@ -1,4 +1,4 @@
-import {VNodeFlags} from './const/flags'
+import {ChildrenFlags, VNodeFlags} from './const/flags'
 
 function mountElement(vnode, container) {
   const el = document.createElement(vnode.tag)
@@ -15,6 +15,18 @@ function mountElement(vnode, container) {
       }
     }
   }
+
+  const { children, childFlags } = vnode
+  if (childFlags !== ChildrenFlags.NO_CHILDREN) {
+    if (childFlags & ChildrenFlags.SINGLE_VNODE) {
+      mount(children, el)
+    } else if (childFlags & ChildrenFlags.MULTIPLE_VNODES) {
+      for (let i = 0, l = children.length; i < l; i++) {
+        mount(children[i], el)
+      }
+    }
+  }
+
   container.appendChild(el)
 }
 
