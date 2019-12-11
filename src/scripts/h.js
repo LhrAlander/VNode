@@ -7,7 +7,7 @@ function normalizeVNodes(children) {
   })
 }
 
-function createTextVNode(text) {
+export function createTextVNode(text) {
   return {
     _isVNode: true,
     flags: VNodeFlags.TEXT,
@@ -19,10 +19,30 @@ function createTextVNode(text) {
   }
 }
 
+function normalizeClass(classValue)
+{
+  let res = ''
+  if (typeof classValue === 'string') {
+    res = classValue
+  } else if (Array.isArray(classValue)) {
+    res = classValue.reduce((finalStr, currVal) => finalStr + ' ' + normalizeClass(currVal), '')
+  } else if (typeof classValue === 'object') {
+    for (let key in classValue) {
+      if (classValue[key]) {
+        res += ` ${key}`
+      }
+    }
+  }
+  return res.trim()
+}
+
 function h(tag, data = null, children = null) {
   let flags = null
   if (typeof tag === 'string') {
     flags = tag === 'svg' ? VNodeFlags.ELEMENT_SVG : VNodeFlags.ELEMENT_HTML
+    if (data && data.class) {
+      data.class = normalizeClass(data.class)
+    }
   } else if (tag === Fragment) {
     flags = VNodeFlags.FRAGMENT
   } else if (tag === Portal) {

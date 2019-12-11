@@ -1,18 +1,17 @@
 import h from './scripts/h'
 import render from './scripts/render'
 
+function click() {
+  console.log('hello world')
+}
+
 const node = h('div', {
   style: {
-    height: '100px',
     width: '100px',
+    height: '100px',
     background: 'red'
-  }
-}, h('div', {
-  style: {
-    width: '45px',
-    height: '45px',
-    background: 'green'
-  }
-}))
+  },
+  onclick: click
+})
 
 render(node, document.querySelector('#app'))

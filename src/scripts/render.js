@@ -1,4 +1,5 @@
 import mount from './mount'
+import patch from './const/patch'
 
 export default function render (vnode, container) {
   const prevVNode = container.vnode || null
@@ -9,7 +10,7 @@ export default function render (vnode, container) {
     }
   } else {
     if (vnode) {
-      // patch(prevVNode, vnode, container)
+      patch(prevVNode, vnode, container)
       container.vnode = vnode
     } else {
       container.removeChild(prevVNode.el)

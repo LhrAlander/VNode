@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b6dba1ad-02de-44bb-ac89-dcd25b7b9940" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scripts/const/patch.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/h.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/h.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scripts/mount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/mount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/render.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/render.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +106,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1575955235239</updated>
-      <workItem from="1575955236400" duration="10005000" />
+      <workItem from="1575955236400" duration="10823000" />
+      <workItem from="1576027550850" duration="8766000" />
     </task>
     <servers />
   </component>
@@ -120,10 +123,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1575961510766" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1575956706034">
+    <state x="558" y="24" key="CommitChangelistDialog2" timestamp="1576056258055">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1575956706034" />
+    <state x="558" y="24" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576056258055" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1576028243643">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1576028243643" />
     <state width="1899" height="261" key="GridCell.Tab.0.bottom" timestamp="1575969372536">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -144,6 +151,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="464" y="306" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1575969549722" />
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1576056354878">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1576056354878" />
     <state x="751" y="431" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1575969458413">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -156,9 +167,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1575969367485" />
-    <state x="623" y="225" width="672" height="676" key="search.everywhere.popup" timestamp="1575969358618">
+    <state x="623" y="225" width="672" height="676" key="search.everywhere.popup" timestamp="1576044057117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1575969358618" />
+    <state x="623" y="225" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1576044057117" />
   </component>
 </project>
