@@ -1,6 +1,6 @@
 import {ChildrenFlags, VNodeFlags} from './const/flags'
 import {createTextVNode} from './h'
-import {patchData} from './const/patch'
+import patch, {patchData} from './const/patch'
 
 export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 
@@ -33,9 +33,23 @@ function mountElement(vnode, container, isSvg) {
 
 function mountStatefulComponent(vnode, container, isSvg) {
   const instance = new vnode.tag()
-  instance.$vnode = instance.render()
-  mount(instance.$vnode, container, isSvg)
-  instance.$el = vnode.el = instance.$vnode.el
+  instance.$props = vnode.data
+  console.log(instance)
+  instance._update = function () {
+    if (instance._mounted) {
+      const preVNode = instance.$vnode
+      const nextVNode = (instance.$vnode = instance.render())
+      patch(preVNode, nextVNode, container)
+      instance.$el = vnode.el = instance.$vnode.el
+    } else {
+      instance.$vnode = instance.render()
+      mount(instance.$vnode, container)
+      instance._mounted = true
+      instance.$el = container.el = instance.$vnode.el
+      instance.mounted && instance.mounted()
+    }
+  }
+  instance._update()
 }
 
 function mountFunctionalComponent(vnode, container, isSvg) {
