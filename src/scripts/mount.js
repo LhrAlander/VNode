@@ -52,7 +52,7 @@ function mountComponent(vnode, container, isSvg) {
   }
 }
 
-function mountText(vnode, container) {
+export function mountText(vnode, container) {
   const el = document.createTextNode(vnode.children)
   vnode.el = el
   container.appendChild(el)

@@ -1,5 +1,6 @@
-import mount, {domPropsRE} from '../mount'
+import mount, {domPropsRE, mountText} from '../mount'
 import {ChildrenFlags, VNodeFlags} from './flags'
+import {createTextVNode} from '../h'
 
 function replaceVNode(preVNode, nextVNode, container) {
   container.removeChild(preVNode.el)
@@ -128,6 +129,63 @@ function patchElement(preVNode, nextVNode, container) {
   )
 }
 
+function patchText(preVNode, nextVNode) {
+  const el = (nextVNode.el = preVNode.el)
+  if (preVNode.children !== nextVNode.children) {
+    el.nodeValue = nextVNode.children
+  }
+}
+
+function patchFragment(preVNode, nextVNode, container) {
+  patchChildren(
+    preVNode.childFlags,
+    nextVNode.childFlags,
+    preVNode.children,
+    nextVNode.children,
+    container
+  )
+  switch (nextVNode.childFlags) {
+    case ChildrenFlags.SINGLE_VNODE:
+      nextVNode.el = nextVNode.children.el
+      break
+    case ChildrenFlags.NO_CHILDREN:
+      const textEl = createTextVNode('')
+      mountText(textEl, container)
+      nextVNode.el = textEl.el
+      break
+    default:
+      nextVNode.el = nextVNode.children[0].el
+      break
+  }
+}
+
+function patchPortal(preVNode, nextVNode) {
+  const preContainer = typeof preVNode.tag === 'string' ? document.querySelector(preVNode.tag) : preVNode.tag
+  const nextContainer = typeof nextVNode.tag === 'string' ? document.querySelector(nextVNode.tag) : nextVNode.tag
+  patchChildren(
+    preVNode.childFlags,
+    nextVNode.childFlags,
+    preVNode.children,
+    nextVNode.children,
+    preContainer
+  )
+  nextVNode.el = preVNode.el
+  if (preContainer !== nextVNode) {
+    switch (nextVNode.childFlags) {
+      case ChildrenFlags.NO_CHILDREN:
+        break
+      case ChildrenFlags.SINGLE_VNODE:
+        nextContainer.appendChild(nextVNode.children.el)
+        break
+      default:
+        for (let i = 0, l = nextVNode.children.length; i < l; i++) {
+          nextContainer.appendChild(nextVNode.children[i].el)
+        }
+        break
+    }
+  }
+}
+
 export default function patch(preVNode, nextVNode, container) {
   const prevFlags = preVNode.flags
   const nextFlags = nextVNode.flags
@@ -135,5 +193,11 @@ export default function patch(preVNode, nextVNode, container) {
     replaceVNode(preVNode, nextVNode, container)
   } else if (nextFlags & VNodeFlags.ELEMENT) {
     patchElement(preVNode, nextVNode, container)
+  } else if (nextFlags & VNodeFlags.TEXT) {
+    patchText(preVNode, nextVNode)
+  } else if (nextFlags & VNodeFlags.FRAGMENT) {
+    patchFragment(preVNode, nextVNode, container)
+  } else if (nextFlags & VNodeFlags.PORTAL) {
+    patchPortal(preVNode, nextVNode)
   }
 }

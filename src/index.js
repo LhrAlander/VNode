@@ -17,7 +17,7 @@ const nextVNode = h('div', {
     background: 'green',
     border: '1px solid #ccc'
   }
-})
+}, 'new node')
 
 render(preVNode, document.querySelector('#app'))
 setTimeout(() => render(nextVNode, document.querySelector('#app')), 2000)
