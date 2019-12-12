@@ -1,7 +1,8 @@
 import {ChildrenFlags, VNodeFlags} from './const/flags'
 import {createTextVNode} from './h'
+import {patchData} from './const/patch'
 
-const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
+export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 
 function mountElement(vnode, container, isSvg) {
   isSvg = isSvg || (vnode.flags & VNodeFlags.ELEMENT_SVG)
@@ -12,29 +13,7 @@ function mountElement(vnode, container, isSvg) {
   const data = vnode.data
   if (data) {
     for (let key in data) {
-      switch (key) {
-        case 'style':
-          for (let k in data.style) {
-            el.style[k] = data.style[k]
-          }
-          break
-        case 'class':
-          if (isSvg) {
-            el.setAttribute('class', data.class)
-          } else {
-            el.className = data.class
-          }
-          break
-        default:
-          if (key.startsWith('on')) {
-            el.addEventListener(key.slice(2), data[key])
-          } else if (domPropsRE.test(key)) {
-            el[key] = data[key]
-          } else {
-            el.setAttribute(key, data[key])
-          }
-          break
-      }
+      patchData(el, key, null, data[key])
     }
   }
 
@@ -68,8 +47,9 @@ function mountFunctionalComponent(vnode, container, isSvg) {
 function mountComponent(vnode, container, isSvg) {
   if (vnode.flags & VNodeFlags.COMPONENT_STATEFUL) {
     mountStatefulComponent(vnode, container, isSvg)
-  } else {}
-  mountFunctionalComponent(vnode, container, isSvg)
+  } else {
+    mountFunctionalComponent(vnode, container, isSvg)
+  }
 }
 
 function mountText(vnode, container) {

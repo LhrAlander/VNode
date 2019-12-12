@@ -1,17 +1,23 @@
 import h from './scripts/h'
 import render from './scripts/render'
 
-function click() {
-  console.log('hello world')
-}
-
-const node = h('div', {
+const preVNode = h('div', {
   style: {
-    width: '100px',
     height: '100px',
-    background: 'red'
-  },
-  onclick: click
+    width: '100px',
+    background: 'red',
+    color: '#fff'
+  }
+}, 'old node')
+
+const nextVNode = h('div', {
+  style: {
+    height: '200px',
+    width: '100px',
+    background: 'green',
+    border: '1px solid #ccc'
+  }
 })
 
-render(node, document.querySelector('#app'))
+render(preVNode, document.querySelector('#app'))
+setTimeout(() => render(nextVNode, document.querySelector('#app')), 2000)
