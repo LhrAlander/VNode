@@ -1,5 +1,5 @@
 import mount, {domPropsRE} from '../mount'
-import {VNodeFlags} from './flags'
+import {ChildrenFlags, VNodeFlags} from './flags'
 
 function replaceVNode(preVNode, nextVNode, container) {
   container.removeChild(preVNode.el)
@@ -38,6 +38,63 @@ export function patchData(el, key, preValue, nextValue) {
   }
 }
 
+function patchChildren(preChildFlags, nextChildFlags, preChildren, nextChildren, container) {
+  switch (preChildFlags) {
+    case ChildrenFlags.SINGLE_VNODE:
+      switch (nextChildFlags) {
+        case ChildrenFlags.SINGLE_VNODE:
+          patch(preChildren, nextChildren, container)
+          break
+        case ChildrenFlags.NO_CHILDREN:
+          container.removeChild(preChildren.el)
+          break
+        default:
+          container.removeChild(preChildren.el)
+          for (let i = 0, l = nextChildren.length; i < l; i++) {
+            mount(nextChildren[i], container)
+          }
+          break
+      }
+      break
+    case ChildrenFlags.NO_CHILDREN:
+      switch (nextChildFlags) {
+        case ChildrenFlags.SINGLE_VNODE:
+          mount(nextChildren, container)
+          break
+        case ChildrenFlags.NO_CHILDREN:
+          break
+        default:
+          for (let i = 0, l = nextChildren.length; i < l; i++) {
+            mount(nextChildren[i], container)
+          }
+          break
+      }
+      break
+    default:
+      switch (nextChildFlags) {
+        case ChildrenFlags.NO_CHILDREN:
+          for (let i = 0, l = preChildren.length; i < l; i++) {
+            container.removeChild(preChildren[i].el)
+          }
+          break
+        case ChildrenFlags.SINGLE_VNODE:
+          for (let i = 0, l = preChildren.length; i < l; i++) {
+            container.removeChild(preChildren[i].el)
+          }
+          mount(nextChildren, container)
+          break
+        default:
+          for (let i = 0, l = preChildren.length; i < l; i++) {
+            container.removeChild(preChildren[i].el)
+          }
+          for (let i = 0, l = nextChildren.length; i < l; i++) {
+            mount(nextChildren[i], container)
+          }
+          break
+      }
+  }
+}
+
 function patchElement(preVNode, nextVNode, container) {
   if (preVNode.tag !== nextVNode.tag) {
     replaceVNode(preVNode, nextVNode, container)
@@ -62,6 +119,13 @@ function patchElement(preVNode, nextVNode, container) {
       }
     }
   }
+  patchChildren(
+    preVNode.childFlags,
+    nextVNode.childFlags,
+    preVNode.children,
+    nextVNode.children,
+    el
+  )
 }
 
 export default function patch(preVNode, nextVNode, container) {

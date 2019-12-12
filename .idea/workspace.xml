@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b6dba1ad-02de-44bb-ac89-dcd25b7b9940" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/const/flags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/const/flags.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scripts/const/patch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/const/patch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/mount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/mount.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +104,7 @@
       <updated>1575955235239</updated>
       <workItem from="1575955236400" duration="10823000" />
       <workItem from="1576027550850" duration="9016000" />
-      <workItem from="1576118075482" duration="3827000" />
+      <workItem from="1576118075482" duration="4952000" />
     </task>
     <task id="LOCAL-00001" summary="完成挂载逻辑编写">
       <created>1576056485493</created>
@@ -116,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576056485493</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="完成patchData的编写">
+      <created>1576133026018</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1576133026018</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,7 +128,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="完成挂载逻辑编写" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成挂载逻辑编写" />
+    <MESSAGE value="完成patchData的编写" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成patchData的编写" />
   </component>
   <component name="WindowStateProjectService">
     <state x="700" y="309" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1575960062773">
@@ -135,10 +140,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1575961510766" />
-    <state x="558" y="24" key="CommitChangelistDialog2" timestamp="1576056483677">
+    <state x="558" y="24" key="CommitChangelistDialog2" timestamp="1576134125031">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="558" y="24" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576056483677" />
+    <state x="558" y="24" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576134125031" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1576028243643">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -163,10 +168,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="464" y="306" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1575969549722" />
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1576056492502">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1576133028301">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1576056492502" />
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1576133028301" />
     <state x="751" y="431" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576132955683">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
