@@ -1,21 +1,27 @@
 import h from './scripts/h'
 import render from './scripts/render'
 
-class MyComponent {
+function Child (props) {
+  return h('div', null, props.txt)
+}
+
+class Comp {
   constructor() {
     this.txt = 'a'
   }
 
+  mounted() {
+    setTimeout(() => {
+      this.txt = 'b'
+      this._update()
+    }, 2000)
+  }
 
   render() {
-    return h(Child)
+    return h(Child, {
+      txt: this.txt
+    })
   }
 }
 
-class Child {
-  render () {
-    return h('div', null, 'child')
-  }
-}
-
-render(h(MyComponent), document.querySelector('#app'))
+render(h(Comp), document.querySelector('#app'))

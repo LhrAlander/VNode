@@ -32,9 +32,8 @@ function mountElement(vnode, container, isSvg) {
 }
 
 function mountStatefulComponent(vnode, container, isSvg) {
-  const instance = new vnode.tag()
+  const instance = (vnode.children = new vnode.tag())
   instance.$props = vnode.data
-  console.log(instance)
   instance._update = function () {
     if (instance._mounted) {
       const preVNode = instance.$vnode
@@ -53,9 +52,28 @@ function mountStatefulComponent(vnode, container, isSvg) {
 }
 
 function mountFunctionalComponent(vnode, container, isSvg) {
-  const $vnode = vnode.tag()
-  mount($vnode, container, isSvg)
-  vnode.el = $vnode.el
+  vnode.handle = {
+    container,
+    prev: null,
+    next: vnode,
+    update: () => {
+      if (vnode.handle.prev) {
+        const preVNode = vnode.handle.prev
+        const nextVNode = vnode.handle.next
+        const props = nextVNode.data
+        const $preVNode = preVNode.children
+        const $nextVNode = (nextVNode.children = nextVNode.tag(props))
+        patch($preVNode, $nextVNode, vnode.handle.container)
+      } else {
+        const props = vnode.data
+        const $vnode = (vnode.children = vnode.tag(props))
+        mount($vnode, container, isSvg)
+        vnode.el = $vnode.el
+      }
+    }
+  }
+  vnode.handle.update()
+
 }
 
 function mountComponent(vnode, container, isSvg) {
@@ -73,8 +91,8 @@ export function mountText(vnode, container) {
 }
 
 function mountFragment(vnode, container, isSvg) {
-  const { children, childFlags } = vnode
-  switch(childFlags) {
+  const {children, childFlags} = vnode
+  switch (childFlags) {
     case ChildrenFlags.SINGLE_VNODE:
       mount(children, container, isSvg)
       vnode.el = children.el
@@ -94,7 +112,7 @@ function mountFragment(vnode, container, isSvg) {
 }
 
 function mountPortal(vnode, container) {
-  const { tag, children, childFlags } = vnode
+  const {tag, children, childFlags} = vnode
   const target = typeof tag === 'string' ? document.querySelector(tag) : tag
   if (childFlags & ChildrenFlags.SINGLE_VNODE) {
     mount(children, target)

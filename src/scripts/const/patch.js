@@ -4,6 +4,10 @@ import {createTextVNode} from '../h'
 
 function replaceVNode(preVNode, nextVNode, container) {
   container.removeChild(preVNode.el)
+  if (preVNode.flags & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
+    const instance = preVNode.children
+    instance.unmounted && instance.unmounted()
+  }
   mount(nextVNode, container)
 }
 
@@ -186,6 +190,22 @@ function patchPortal(preVNode, nextVNode) {
   }
 }
 
+function patchComponent(preVNode, nextVNode, container) {
+  if (preVNode.tag !== nextVNode.tag) {
+    replaceVNode(preVNode, nextVNode, container)
+  } else if (nextVNode.flags & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
+    const instance = (nextVNode.children = preVNode.children)
+    instance.$props = nextVNode.data
+    instance._update()
+  } else {
+    const handle = (nextVNode.handle = preVNode.handle)
+    handle.container = container
+    handle.prev = preVNode
+    handle.next = nextVNode
+    handle.update()
+  }
+}
+
 export default function patch(preVNode, nextVNode, container) {
   const prevFlags = preVNode.flags
   const nextFlags = nextVNode.flags
@@ -199,5 +219,7 @@ export default function patch(preVNode, nextVNode, container) {
     patchFragment(preVNode, nextVNode, container)
   } else if (nextFlags & VNodeFlags.PORTAL) {
     patchPortal(preVNode, nextVNode)
+  } else if (nextFlags & VNodeFlags.COMPONENT) {
+    patchComponent(preVNode, nextVNode, container)
   }
 }
