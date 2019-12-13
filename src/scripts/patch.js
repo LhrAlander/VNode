@@ -1,6 +1,6 @@
-import mount, {domPropsRE, mountText} from '../mount'
-import {ChildrenFlags, VNodeFlags} from './flags'
-import {createTextVNode} from '../h'
+import mount, {domPropsRE, mountText} from './mount'
+import {ChildrenFlags, VNodeFlags} from './const/flags'
+import {createTextVNode} from './h'
 
 function replaceVNode(preVNode, nextVNode, container) {
   container.removeChild(preVNode.el)
@@ -89,11 +89,20 @@ function patchChildren(preChildFlags, nextChildFlags, preChildren, nextChildren,
           mount(nextChildren, container)
           break
         default:
-          for (let i = 0, l = preChildren.length; i < l; i++) {
-            container.removeChild(preChildren[i].el)
+          const preLen = preChildren.length
+          const nextLen = nextChildren.length
+          const commonLen = Math.min(preLen, nextLen)
+          for (let i = 0; i < commonLen; i++) {
+            patch(preChildren[i], nextChildren[i], container)
           }
-          for (let i = 0, l = nextChildren.length; i < l; i++) {
-            mount(nextChildren[i], container)
+          if (nextLen > preLen) {
+            for (let i = commonLen; i < nextLen; i++) {
+              mount(nextChildren[i], container)
+            }
+          } else if (nextLen < preLen) {
+            for (let i = commonLen; i < preLen; i++) {
+              container.removeChild(preChildren[i].el)
+            }
           }
           break
       }

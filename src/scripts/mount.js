@@ -1,6 +1,6 @@
 import {ChildrenFlags, VNodeFlags} from './const/flags'
 import {createTextVNode} from './h'
-import patch, {patchData} from './const/patch'
+import patch, {patchData} from './patch'
 
 export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 

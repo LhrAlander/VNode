@@ -1,27 +1,19 @@
 import h from './scripts/h'
 import render from './scripts/render'
 
-function Child (props) {
-  return h('div', null, props.txt)
-}
+const old = h('ul', null, [
+  h('li', null, '1'),
+  h('li', null, '2'),
+  h('li', null, '3')
+])
 
-class Comp {
-  constructor() {
-    this.txt = 'a'
-  }
+const newEl = h('ul', null, [
+  h('div', null, '2'),
+  h('li', null, '3'),
+  h('li', null, '1')
+])
 
-  mounted() {
-    setTimeout(() => {
-      this.txt = 'b'
-      this._update()
-    }, 2000)
-  }
-
-  render() {
-    return h(Child, {
-      txt: this.txt
-    })
-  }
-}
-
-render(h(Comp), document.querySelector('#app'))
+render(old, document.querySelector('#app'))
+setTimeout(() => {
+  render(newEl, document.querySelector('#app'))
+}, 2000)

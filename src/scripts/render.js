@@ -1,5 +1,5 @@
 import mount from './mount'
-import patch from './const/patch'
+import patch from './patch'
 
 export default function render (vnode, container) {
   const prevVNode = container.vnode || null

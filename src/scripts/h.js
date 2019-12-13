@@ -86,7 +86,8 @@ function h(tag, data = null, children = null) {
     data,
     children,
     childFlags,
-    el: null
+    el: null,
+    key: data && data.key !== null && data.key !== undefined ? data.key : null
   }
 }
 
