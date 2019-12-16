@@ -4,7 +4,7 @@ import patch, {patchData} from './patch'
 
 export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 
-function mountElement(vnode, container, isSvg) {
+function mountElement(vnode, container, isSvg, refNode) {
   isSvg = isSvg || (vnode.flags & VNodeFlags.ELEMENT_SVG)
   const el = isSvg
     ? document.createElementNS('http://www.w3.org/2000/svg', vnode.tag)
@@ -20,15 +20,14 @@ function mountElement(vnode, container, isSvg) {
   const {children, childFlags} = vnode
   if (childFlags !== ChildrenFlags.NO_CHILDREN) {
     if (childFlags & ChildrenFlags.SINGLE_VNODE) {
-      mount(children, el, isSvg)
+      mount(children, el, isSvg, refNode)
     } else if (childFlags & ChildrenFlags.MULTIPLE_VNODES) {
       for (let i = 0, l = children.length; i < l; i++) {
-        mount(children[i], el, isSvg)
+        mount(children[i], el, isSvg, refNode)
       }
     }
   }
-
-  container.appendChild(el)
+  refNode ? container.insertBefore(el, refNode) : container.appendChild(el)
 }
 
 function mountStatefulComponent(vnode, container, isSvg) {
@@ -126,10 +125,10 @@ function mountPortal(vnode, container) {
   vnode.el = textEl.el
 }
 
-export default function mount(vnode, container, isSvg) {
+export default function mount(vnode, container, isSvg, refNode) {
   const {flags} = vnode
   if (flags & VNodeFlags.ELEMENT) {
-    mountElement(vnode, container, isSvg)
+    mountElement(vnode, container, isSvg, refNode)
   } else if (flags & VNodeFlags.COMPONENT) {
     mountComponent(vnode, container)
   } else if (flags & VNodeFlags.TEXT) {

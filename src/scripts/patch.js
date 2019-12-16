@@ -1,14 +1,16 @@
 import mount, {domPropsRE, mountText} from './mount'
 import {ChildrenFlags, VNodeFlags} from './const/flags'
 import {createTextVNode} from './h'
+import {isNull} from './utils'
 
 function replaceVNode(preVNode, nextVNode, container) {
+  const refNode = preVNode.el.nextSibling
   container.removeChild(preVNode.el)
   if (preVNode.flags & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
     const instance = preVNode.children
     instance.unmounted && instance.unmounted()
   }
-  mount(nextVNode, container)
+  mount(nextVNode, container, false, refNode)
 }
 
 export function patchData(el, key, preValue, nextValue) {
@@ -89,19 +91,35 @@ function patchChildren(preChildFlags, nextChildFlags, preChildren, nextChildren,
           mount(nextChildren, container)
           break
         default:
-          const preLen = preChildren.length
-          const nextLen = nextChildren.length
-          const commonLen = Math.min(preLen, nextLen)
-          for (let i = 0; i < commonLen; i++) {
-            patch(preChildren[i], nextChildren[i], container)
-          }
-          if (nextLen > preLen) {
-            for (let i = commonLen; i < nextLen; i++) {
-              mount(nextChildren[i], container)
+          let lastIndex = 0
+          for (let i = 0, l = nextChildren.length; i < l; i++) {
+            const nextVNode = nextChildren[i]
+            let found = false
+            for (let j = 0, l = preChildren.length; i < j; j++) {
+              const preVNode = preChildren[j]
+              if (nextVNode.key === preVNode.key) {
+                found = true
+                patch(preVNode, nextVNode, container)
+                if (j < lastIndex) {
+                  const refNode = nextChildren[j - 1].nextSibling
+                  container.insertBefore(preVNode.el, refNode)
+                } else {
+                  lastIndex = j
+                }
+                break
+              }
             }
-          } else if (nextLen < preLen) {
-            for (let i = commonLen; i < preLen; i++) {
-              container.removeChild(preChildren[i].el)
+            if (!found) {
+              const refNode = i > 0 ? nextChildren[i - 1].el.nextSibling : null
+              mount(nextVNode, container, false, refNode)
+            }
+          }
+          for (let i = 0, l = preChildren.length; i < l; i++) {
+            const preVNode = preChildren[i]
+            const has = nextChildren.some(_ => _.key === preVNode.key)
+            if (isNull(preVNode.key) || !has) {
+              console.log('remove element', preVNode.el)
+              container.removeChild(preVNode.el)
             }
           }
           break

@@ -2,7 +2,7 @@ import {ChildrenFlags, Fragment, Portal, VNodeFlags} from './const/flags'
 
 function normalizeVNodes(children) {
   return children.map((node, index) => {
-    node.key = node.key || `|${index}`
+    node.key = node.key || null
     return node
   })
 }

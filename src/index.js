@@ -8,12 +8,13 @@ const old = h('ul', null, [
 ])
 
 const newEl = h('ul', null, [
-  h('div', null, '2'),
-  h('li', null, '3'),
+  h('li', null, '2'),
+  h('div', null, '3'),
   h('li', null, '1')
 ])
 
 render(old, document.querySelector('#app'))
 setTimeout(() => {
+  console.log('rerender')
   render(newEl, document.querySelector('#app'))
 }, 2000)
